@@ -13,13 +13,14 @@ export class TabledataComponent {
   cellobj:Cell={} as Cell
   booked:number=0;
   amount:number=0
-  tax:number;
+  basic:number=300;
+  tax!:number;
   constructor(private servdata:ApidataService){
     this.servdata.getData().subscribe(obj=>{
       this.datamv = obj as Movies
       console.log(this.datamv);
     })
-    this.tax=this.datamv.BasicPrice*0.20;
+    
   }
   cellValue(start:number,end:number){
     for (let i = start; i <= end; i++) {
@@ -29,13 +30,30 @@ export class TabledataComponent {
     
   }
 
-  change(value:number){
+  change(value:number,row:number){
     this.cellobj=this.cellarr.find(obj=>obj.id==value) as Cell
     this.cellarr[value-1].selected=true;
-    console.log(value);
-    this.booked++;
-    this.amount=this.datamv.BasicPrice*this.booked;
-    this.tax=this.tax*this.booked;
+    
+    if(row>3)
+    {
+      console.log(this.basic);
+      
+      this.basic=this.datamv.BasicPrice+(50*(row-3));
+      this.booked++;
+      console.log(this.basic);
 
+      this.amount+=this.basic;
+      this.tax=this.basic*0.20*this.booked
+    }
+    else
+    {
+      this.basic=this.datamv.BasicPrice
+      this.booked++;
+      console.log(this.basic);
+
+      this.amount+=this.basic;
+      this.tax=this.basic*0.20*this.booked
+    }
+    
   }
 }
