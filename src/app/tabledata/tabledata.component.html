@@ -1,0 +1,36 @@
+<div class="container">
+    <p>{{datamv.MovieName}}</p>
+    <p>{{datamv.BasicPrice}}</p>
+
+    <table>
+        <tr *ngFor="let row of datamv.Rows">
+            {{cellValue(row.Start,row.End)}}
+            <ng-container *ngFor="let item of cellarr">
+                <ng-container *ngIf="item.id>=row.Start && item.id<=row.End">
+                    <ng-container *ngIf="row.AlreadyBooked.includes(item.id);else temp">
+                        <td class="p-4 border bg-secondary">{{item.id}}</td>
+                    </ng-container>
+                    <ng-template #temp>
+                        <ng-container *ngIf="item.selected;else second">
+                            <td class="p-4 border bg-success">{{item.id}}</td>
+                        </ng-container>
+                        <ng-template #second>
+                            <td class="p-4 border bg-white" (click)="change(item.id)">{{item.id}}</td>
+                        </ng-template>
+                    </ng-template>
+                </ng-container>
+            </ng-container>
+        </tr>
+    </table>
+</div>
+<div class="container">
+   <div class="card">
+    <div class="card-body">
+        <h4 class="card-title">{{datamv.MovieName}}</h4>
+        <p class="card-text">{{booked}}</p>
+        <p class="card-text">{{amount}}</p>
+        <p class="card-text">{{tax}}</p>
+        <p class="card-text">total: {{amount+tax}}</p>
+    </div>
+   </div>
+</div>
