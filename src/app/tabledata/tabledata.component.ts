@@ -14,7 +14,7 @@ export class TabledataComponent {
   booked:number=0;
   amount:number=0
   basic:number=300;
-  tax!:number;
+  tax:number=0;
   constructor(private servdata:ApidataService){
     this.servdata.getData().subscribe(obj=>{
       this.datamv = obj as Movies
